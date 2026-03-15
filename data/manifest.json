@@ -1,0 +1,45 @@
+{
+  "source_page": "https://euklems-intanprod-llee.luiss.it/download/",
+  "downloaded_at_utc": "2026-03-15T17:55:37.234027+00:00",
+  "selected_format": "csv",
+  "modules": [
+    "national_accounts",
+    "labour_accounts",
+    "capital_accounts",
+    "variable_list"
+  ],
+  "files": [
+    {
+      "module": "national_accounts",
+      "format": "csv",
+      "url": "https://www.dropbox.com/s/nkz7mdp0onken1j/national%20accounts.csv?dl=1",
+      "path": "data/folder/national_accounts.csv",
+      "bytes": 14900810,
+      "status": "downloaded"
+    },
+    {
+      "module": "labour_accounts",
+      "format": "csv",
+      "url": "https://www.dropbox.com/s/vgtzptui1m1tj9l/labour%20accounts.csv?dl=1",
+      "path": "data/folder/labour_accounts.csv",
+      "bytes": 27730666,
+      "status": "downloaded"
+    },
+    {
+      "module": "capital_accounts",
+      "format": "csv",
+      "url": "https://www.dropbox.com/s/sp2p4m86et66nfg/capital%20accounts.csv?dl=1",
+      "path": "data/folder/capital_accounts.csv",
+      "bytes": 35971512,
+      "status": "downloaded"
+    },
+    {
+      "module": "variable_list",
+      "format": "xlsx",
+      "url": "https://www.dropbox.com/s/srsn4zdb1wta27t/Variable-List-2023.xlsx?dl=1",
+      "path": "data/folder/Variable-List-2023.xlsx",
+      "bytes": 16347,
+      "status": "downloaded"
+    }
+  ]
+}

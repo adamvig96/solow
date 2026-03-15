@@ -1,0 +1,23 @@
+{
+  "created_at_utc": "2026-03-15T18:01:02.558023+00:00",
+  "method_version": "solow_v1",
+  "rows": {
+    "yoy_total": 12873,
+    "yoy_country_macro": 739,
+    "yoy_country_industry": 12134,
+    "cumulative_total": 12873
+  },
+  "coverage": {
+    "countries_in_yoy": 30,
+    "industries_in_yoy": 20,
+    "years_min": 1996,
+    "years_max": 2021
+  },
+  "alpha_source_counts": {
+    "observed": 12873
+  },
+  "identity_checks": {
+    "yoy_max_abs_residual": 1.4210854715202004e-14,
+    "cumulative_max_abs_residual": 5.684341886080802e-14
+  }
+}
