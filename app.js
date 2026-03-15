@@ -336,50 +336,95 @@ function renderChart(series) {
   const tfp = series.map((row) => row.contrib_tfp);
   const output = series.map((row) => row.g_y);
 
-  const traces = [
-    {
-      x: years,
-      y: labor,
-      type: "scatter",
-      mode: "lines",
-      stackgroup: "decomposition",
-      name: "Labor contribution",
-      line: { color: COLORS.labor, width: 1.2 },
-      fillcolor: "rgba(235, 106, 52, 0.65)",
-      hovertemplate: "Labor: %{y:.2f} pp<br>Year: %{x}<extra></extra>"
-    },
-    {
-      x: years,
-      y: capital,
-      type: "scatter",
-      mode: "lines",
-      stackgroup: "decomposition",
-      name: "Capital contribution",
-      line: { color: COLORS.capital, width: 1.2 },
-      fillcolor: "rgba(38, 140, 133, 0.65)",
-      hovertemplate: "Capital: %{y:.2f} pp<br>Year: %{x}<extra></extra>"
-    },
-    {
-      x: years,
-      y: tfp,
-      type: "scatter",
-      mode: "lines",
-      stackgroup: "decomposition",
-      name: "TFP contribution",
-      line: { color: COLORS.tfp, width: 1.2 },
-      fillcolor: "rgba(42, 75, 106, 0.65)",
-      hovertemplate: "TFP: %{y:.2f} pp<br>Year: %{x}<extra></extra>"
-    },
-    {
-      x: years,
-      y: output,
-      type: "scatter",
-      mode: "lines",
-      name: state.mode === "yoy" ? "Output growth" : "Cumulative output growth",
-      line: { color: COLORS.output, width: 2.8 },
-      hovertemplate: "Output: %{y:.2f} pp<br>Year: %{x}<extra></extra>"
-    }
-  ];
+  let traces = [];
+  if (state.mode === "yoy") {
+    traces = [
+      {
+        x: years,
+        y: labor,
+        type: "bar",
+        name: "Labor contribution",
+        marker: { color: "rgba(235, 106, 52, 0.82)" },
+        hovertemplate: "Labor: %{y:.2f} pp<br>Year: %{x}<extra></extra>"
+      },
+      {
+        x: years,
+        y: capital,
+        type: "bar",
+        name: "Capital contribution",
+        marker: { color: "rgba(38, 140, 133, 0.82)" },
+        hovertemplate: "Capital: %{y:.2f} pp<br>Year: %{x}<extra></extra>"
+      },
+      {
+        x: years,
+        y: tfp,
+        type: "bar",
+        name: "TFP contribution",
+        marker: { color: "rgba(42, 75, 106, 0.82)" },
+        hovertemplate: "TFP: %{y:.2f} pp<br>Year: %{x}<extra></extra>"
+      },
+      {
+        x: years,
+        y: output,
+        type: "scatter",
+        mode: "lines",
+        name: "Output growth",
+        line: { color: COLORS.output, width: 2.6 },
+        hovertemplate: "Output: %{y:.2f} pp<br>Year: %{x}<extra></extra>"
+      }
+    ];
+  } else {
+    const laborBoundary = labor;
+    const capitalBoundary = labor.map((value, idx) => value + capital[idx]);
+    const tfpBoundary = capitalBoundary.map((value, idx) => value + tfp[idx]);
+    traces = [
+      {
+        x: years,
+        y: laborBoundary,
+        type: "scatter",
+        mode: "lines",
+        name: "Labor contribution",
+        line: { color: COLORS.labor, width: 1.2 },
+        fill: "tozeroy",
+        fillcolor: "rgba(235, 106, 52, 0.62)",
+        customdata: labor,
+        hovertemplate: "Labor: %{customdata:.2f} pp<br>Year: %{x}<extra></extra>"
+      },
+      {
+        x: years,
+        y: capitalBoundary,
+        type: "scatter",
+        mode: "lines",
+        name: "Capital contribution",
+        line: { color: COLORS.capital, width: 1.2 },
+        fill: "tonexty",
+        fillcolor: "rgba(38, 140, 133, 0.62)",
+        customdata: capital,
+        hovertemplate: "Capital: %{customdata:.2f} pp<br>Year: %{x}<extra></extra>"
+      },
+      {
+        x: years,
+        y: tfpBoundary,
+        type: "scatter",
+        mode: "lines",
+        name: "TFP contribution",
+        line: { color: COLORS.tfp, width: 1.2 },
+        fill: "tonexty",
+        fillcolor: "rgba(42, 75, 106, 0.62)",
+        customdata: tfp,
+        hovertemplate: "TFP: %{customdata:.2f} pp<br>Year: %{x}<extra></extra>"
+      },
+      {
+        x: years,
+        y: output,
+        type: "scatter",
+        mode: "lines",
+        name: "Cumulative output growth",
+        line: { color: COLORS.output, width: 2.8 },
+        hovertemplate: "Output: %{y:.2f} pp<br>Year: %{x}<extra></extra>"
+      }
+    ];
+  }
 
   const yAxisTitle =
     state.mode === "yoy"
@@ -412,7 +457,8 @@ function renderChart(series) {
       x: 0,
       bgcolor: "rgba(0,0,0,0)"
     },
-    hovermode: "x unified"
+    hovermode: "x unified",
+    barmode: state.mode === "yoy" ? "relative" : undefined
   };
 
   Plotly.react("mainChart", traces, layout, {
